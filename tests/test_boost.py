@@ -128,18 +128,18 @@ def test_obj_5D_strcat_intcat_rectangular(use_weights):
         storage=storage,
     )
     for i in range(25):
-        h.fill(f"testcat{i+1}", i + 1, *(x.T), weight=weights)
+        h.fill(f"testcat{i + 1}", i + 1, *(x.T), weight=weights)
     h = h.compute()
 
     control = bh.Histogram(*h.axes, storage=h.storage_type())
     if use_weights:
         for i in range(25):
             control.fill(
-                f"testcat{i+1}", i + 1, *(x.compute().T), weight=weights.compute()
+                f"testcat{i + 1}", i + 1, *(x.compute().T), weight=weights.compute()
             )
     else:
         for i in range(25):
-            control.fill(f"testcat{i+1}", i + 1, *(x.compute().T))
+            control.fill(f"testcat{i + 1}", i + 1, *(x.compute().T))
 
     assert np.allclose(h.counts(), control.counts())
     if use_weights:
@@ -183,7 +183,9 @@ def test_obj_5D_strcat_intcat_rectangular_dak(use_weights):
     assert h.__dask_optimize__ == dak.lib.optimize.all_optimizations
 
     for i in range(25):
-        h.fill(f"testcat{i+1}", i + 1, x, y, z, weight=weights[i] if weights else None)
+        h.fill(
+            f"testcat{i + 1}", i + 1, x, y, z, weight=weights[i] if weights else None
+        )
     h = h.compute()
 
     control = bh.Histogram(*h.axes, storage=h.storage_type())
@@ -191,11 +193,11 @@ def test_obj_5D_strcat_intcat_rectangular_dak(use_weights):
     if use_weights:
         for i in range(25):
             control.fill(
-                f"testcat{i+1}", i + 1, x_c, y_c, z_c, weight=weights[i].compute()
+                f"testcat{i + 1}", i + 1, x_c, y_c, z_c, weight=weights[i].compute()
             )
     else:
         for i in range(25):
-            control.fill(f"testcat{i+1}", i + 1, x_c, y_c, z_c)
+            control.fill(f"testcat{i + 1}", i + 1, x_c, y_c, z_c)
 
     assert np.allclose(h.counts(), control.counts())
     if use_weights:
